@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  eduresult:
+    build: .
+    container_name: eduresult-pro
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV:   production
+      PORT:       3000
+      JWT_SECRET: "CHANGE_THIS_TO_A_LONG_RANDOM_SECRET_STRING"
+      DB_PATH:    /app/backend/data/eduresult.db
+      CORS_ORIGINS: "*"
+    volumes:
+      # Persist SQLite database across container restarts
+      - eduresult_data:/app/backend/data
+
+volumes:
+  eduresult_data:
+    driver: local

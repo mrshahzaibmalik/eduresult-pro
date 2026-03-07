@@ -1,0 +1,29 @@
+# ─────────────────────────────────────────────────────────
+#  Deploy to Render.com (FREE tier)
+#  Push this repo to GitHub, then:
+#  1. Go to render.com → New Web Service
+#  2. Connect your GitHub repo
+#  3. Render auto-detects this file
+# ─────────────────────────────────────────────────────────
+
+services:
+  - type: web
+    name: eduresult-pro
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true          # Render auto-generates a secure random value
+      - key: DB_PATH
+        value: /opt/render/project/src/backend/data/eduresult.db
+      - key: CORS_ORIGINS
+        value: "*"
+    disk:
+      name: eduresult-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
